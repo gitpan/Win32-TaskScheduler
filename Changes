@@ -89,3 +89,8 @@ Revision history for Perl extension TaskScheduler.
 
 	Added Set/GetMaxRunTime functions.
 
+2.0.3 Thursday 15/1/2004
+
+	Modified SetAccountInformation so that it accepts empty
+	login and password. This is needed to be able to schedule
+	a job running as System.

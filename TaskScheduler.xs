@@ -232,16 +232,24 @@ SetAccountInformation(SV* self,char* usr,char* pwd)
 	CODE:
 	DataFromBlessedHash(self,&taskSched,&activeTask);
 
-	user=_towchar(usr,FALSE);
-	password=_towchar(pwd,FALSE);
-
 	if(activeTask == NULL || taskSched == NULL)
 	{
 		wprintf(L"Win32::TaskScheduler: fatal error: null pointer, call NEW()\n");
 		XSRETURN_IV(0);
 	}
 
-	hr = activeTask->SetAccountInformation(user,password);
+	//Based on patch contributed by Andreas Hartmann
+	if ((strcmp (usr,"") == 0) && ( pwd == NULL || (strcmp (pwd,"") == 0)) )
+	{
+		hr = activeTask->SetAccountInformation(L"",NULL); // run as system-Account
+	}
+	else
+	{
+		user=_towchar(usr,FALSE);
+		password=_towchar(pwd,FALSE);
+		hr = activeTask->SetAccountInformation(user,password);
+	}
+	
 	switch(hr) {
 		case S_OK : { RETVAL=1; break; }
 		case E_ACCESSDENIED : { RETVAL=0; break; }

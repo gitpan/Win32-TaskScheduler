@@ -25,7 +25,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '2.0.2';
+our $VERSION = '2.0.3';
 
 #variables exported to user scope
 use constant TASK_SUNDAY=>1;
@@ -370,7 +370,8 @@ The name must be a valid UNC name (e.g.: \\myhost). Result will be:
 
 =head3 $result SetAccountInformation($usr,$pwd)
 
-Set account information for the currently active job.
+Set account information for the currently active job. To schedule the job to run
+as the System account specify the empty string for both username and password.
 Return value will be:
 
 =over
@@ -763,6 +764,7 @@ an error.
 =head3 $result SetMaxRunTime($timeMilliSeconds)
 
 Sets the time in milliseconds that the job will be allowed to run before being sent a WM_CLOSE message.
+Set the value to INFINITE (see constants) to allow the task to run forever.
 Returns 1 on success and 0 on failure.
 
 =head3 $result Run()
